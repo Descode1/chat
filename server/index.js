@@ -16,10 +16,10 @@ const io = new Server(server,{
 
 io.on("connection",(socket)=>{
     console.log("A user is connected");
+    socket.on("chat message",(msg)=>{
+        console.log('message: ' + msg );
+    })
 });
-app.get("/",(req,res)=>{
-    res.send("Hello World")
-})
 server.listen("3000",()=>{
     console.log("listening on port 3000")
 })
