@@ -1,6 +1,7 @@
 import { useState } from "react";
 import supabase from "../../lib/supabase";
 import createToken from "../../utils/token";
+import { redirect } from "react-router";
 
 function Login() {
   const [username, setUsername] = useState<string>("");
@@ -15,6 +16,7 @@ function Login() {
       const token = await createToken(username,JWTSecret);
       console.log("token:", token)
       setUsername("");
+      redirect("/global-chat")
     }
   };
   return (
