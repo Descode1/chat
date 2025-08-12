@@ -1,5 +1,6 @@
 import { useState } from "react";
 import supabase from "../../lib/supabase";
+import "./Login.css"
 
 function SignUp() {
   const [username, setUsername] = useState<string>("");
@@ -16,14 +17,16 @@ function SignUp() {
   };
   return (
     <>
-      <form onSubmit={handleRegister}>
+      <form className="login-form" onSubmit={handleRegister}>
         <input
+          className="login-input"
           placeholder="Enter Username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button>sign up</button>
+        <button className="login-button">Register</button>
+        <h4>Already registered? <a href="/login">Login</a> </h4>
       </form>
     </>
   );

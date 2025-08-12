@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { io} from "socket.io-client";
 import "./GlobalChat.css";
 
-const socket: Socket = io("http://localhost:3000");
+const socket = io( import.meta.env.VITE_SOCKET_URL);
 
 function GlobalChat() {
   const [messages, setMessages] = useState<string[]>([]);

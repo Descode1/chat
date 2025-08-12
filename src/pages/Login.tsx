@@ -39,6 +39,7 @@ function Login() {
           onChange={(e) => setUsername(e.target.value)}
         />
         <button className="login-button">Login</button>
+        <h4>{`Don't have a username yet? `}<a href="signup">Register</a></h4>
       </form>
     </>
   );
