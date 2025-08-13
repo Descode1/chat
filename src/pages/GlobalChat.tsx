@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { io} from "socket.io-client";
+import { io } from "socket.io-client";
 import "./GlobalChat.css";
+import supabase from "../../lib/supabase";
 
-const socket = io( import.meta.env.VITE_SOCKET_URL);
+const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 function GlobalChat() {
   const [messages, setMessages] = useState<string[]>([]);
@@ -20,22 +21,44 @@ function GlobalChat() {
     };
   }, []);
 
-  const sendMessage = (e: React.FormEvent) => {
+  const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const authData = authority();
     if (!authData.isAuthorised) {
       alert("Please log in to send messages");
       return;
     }
-    
+
     if (message.trim()) {
       const messageWithUser = `${authData.username}: ${message}`;
       socket.emit("chat message", messageWithUser);
+      const { error } = await supabase
+        .from("chat_messages")
+        .insert([{ message: messageWithUser }]);
+      if (error) {
+        console.log(error);
+      }
       setMessage("");
     }
   };
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("message")
+      .order("created_at", { ascending: true });
 
+    if (error) {
+      console.error("Error fetching messages:", error);
+      return;
+    }
+
+    const msgs = data?.map((item: any) => item.message) || [];
+    setMessages(msgs);
+  };
+  useEffect(() => {
+    fetchMessages();
+  }, []);
   const authority = (): {
     isAuthorised: boolean;
     username?: string;
