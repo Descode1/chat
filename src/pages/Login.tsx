@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("chat_users")
       .select("*")
       .eq("username", username)
@@ -19,7 +19,6 @@ function Login() {
     if (error) {
       console.error("Error: ", error);
     } else {
-      console.log("data:", data);
       const token = await createToken(username, JWTSecret);
       localStorage.setItem("tkn", token);
       localStorage.setItem("username", username);

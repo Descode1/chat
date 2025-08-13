@@ -30,7 +30,6 @@ function GlobalChat() {
     }
     
     if (message.trim()) {
-      // Include username with the message
       const messageWithUser = `${authData.username}: ${message}`;
       socket.emit("chat message", messageWithUser);
       setMessage("");
