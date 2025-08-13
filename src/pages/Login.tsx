@@ -35,7 +35,8 @@ function Login() {
           placeholder="Enter Username"
           type="text"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value.toLowerCase())}
+          required
         />
         <button className="login-button">Login</button>
         <h4>{`Don't have a username yet? `}<a href="signup">Register</a></h4>

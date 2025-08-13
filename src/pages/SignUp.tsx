@@ -1,10 +1,12 @@
 import { useState } from "react";
 import supabase from "../../lib/supabase";
 import "./Login.css"
+import { useNavigate } from "react-router";
+
 
 function SignUp() {
   const [username, setUsername] = useState<string>("");
-
+  const navigate = useNavigate();
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     const { error } = await supabase.from("chat_users").insert([{ username }]);
@@ -13,6 +15,7 @@ function SignUp() {
     } else {
       console.log("Insert successfully");
       setUsername("");
+      navigate("/login")
     }
   };
   return (
@@ -23,7 +26,8 @@ function SignUp() {
           placeholder="Enter Username"
           type="text"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value.toLowerCase())}
+          required
         />
         <button className="login-button">Register</button>
         <h4>Already registered? <a href="/login">Login</a> </h4>
